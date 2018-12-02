@@ -99,7 +99,7 @@ def signin():
     session['key'] = result['idToken']
     session['uid'] = result['localId']
 
-    if session['key'] == 'G8BhHlNHAXX7SGtbHSDFj7crPq62':
+    if session['uid'] == 'G8BhHlNHAXX7SGtbHSDFj7crPq62':
         return redirect('/admin')
     else:
         return redirect('/')
@@ -132,7 +132,7 @@ def home():
 
 @app.route('/admin', methods=['GET'])
 def admin():
-    if 'key' in session and session['key'] == 'G8BhHlNHAXX7SGtbHSDFj7crPq62':
+    if 'key' in session and session['uid'] == 'G8BhHlNHAXX7SGtbHSDFj7crPq62':
         return app.send_static_file('admin.html')
     else:
         return redirect('/')
