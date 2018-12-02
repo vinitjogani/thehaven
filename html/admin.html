@@ -198,8 +198,8 @@
                 computed: {
                     sorted_users() {
                         return this.users.sort((u, v) => {
-                            var avgu = calc_avg(u)
-                            var avgv = calc_avg(v);
+                            var avgu = this.calc_avg(u)
+                            var avgv = this.calc_avg(v);
                             return avgu - avgv;
                         })
                     }
