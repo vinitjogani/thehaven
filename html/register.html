@@ -91,8 +91,10 @@ a{
             <h1 style="margin:0"><img src="/logo.png" height="80" /></h1>
 
             <div v-if="failure">
-                <div class="failure">A user with that email already exists. Please try again with a
-                    different email!</div>
+                <div class="failure">Something went wrong! Either a
+                    user with that email already exists, or your
+                    password is less than 6 characters
+                    long. Either way, please try again!</div>
                 <br><br>
             </div>
             <div class="flex">

@@ -37,7 +37,7 @@ def get_image_points(image):
     result = moderate.predict_by_filename(image)
     points = result['outputs'][0]['data']['concepts']
     points = [point['value'] for point in points if point['name'] == 'safe']
-    points = int(points[0] * 4) + int(positive)
+    points = round(points[0] * 4) + int(positive)
     return points, (tags[0], tags[1])
 
 
@@ -190,7 +190,8 @@ def post():
     text, image, audio, tags = '', '', '', ()
     points = 5
 
-    if not ('text' in request.form or 'image' in request.files or 'audio' in request.files):
+    if not (('text' in request.form and request.form['text'].strip() != "")
+            or 'image' in request.files or 'audio' in request.files):
         return redirect('/')
 
     if 'text' in request.form:
@@ -269,6 +270,11 @@ def comment():
         return "OK"
     else:
         return "BE NICE"
+
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return redirect("/auth/login")
 
 
 if __name__ == '__main__':
