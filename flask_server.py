@@ -269,3 +269,7 @@ def comment():
         return "OK"
     else:
         return "BE NICE"
+
+
+if __name__ == '__main__':
+    app.run()
