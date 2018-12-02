@@ -173,7 +173,7 @@
                         </div>
                     </div>
                     <div :class="'rating ' + (calc_avg(user) < 2.5 ? 'red' : 'green')">
-                        <div class="f"></div>{{calc_avg(user)}} <div class="f"></div>
+                        <div class="f"></div>{{calc_avg(user).toFixed(1)}} <div class="f"></div>
                     </div>
                 </div>
             </div>
