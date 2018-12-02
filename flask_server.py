@@ -64,7 +64,12 @@ def get_audio_points(tmp_audio_file):
 def signup():
     if 'key' not in session:
         email, password = request.form['email'], request.form['password']
-        result = auth.create_user_with_email_and_password(email, password)
+
+        try:
+            result = auth.create_user_with_email_and_password(email, password)
+        except:
+            return redirect('/auth/register?sta=Failure')
+
         db.child('users/' + result['localId'] +
                  '/fname').set(request.form['fname'], result['idToken'])
         db.child('users/' + result['localId'] +
@@ -85,10 +90,19 @@ def register():
 @app.route('/auth/login/', methods=['POST'])
 def signin():
     email, password = request.form['email'], request.form['password']
-    result = firebase.auth().sign_in_with_email_and_password(email, password)
+
+    try:
+        result = firebase.auth().sign_in_with_email_and_password(email, password)
+    except:
+        return redirect('/auth/login?sta=Failure')
+
     session['key'] = result['idToken']
     session['uid'] = result['localId']
-    return redirect('/')
+
+    if session['key'] == 'G8BhHlNHAXX7SGtbHSDFj7crPq62':
+        return redirect('/admin')
+    else:
+        return redirect('/')
 
 
 @app.route('/auth/login/', methods=['GET'])
@@ -120,6 +134,8 @@ def home():
 def admin():
     if 'key' in session and session['key'] == 'G8BhHlNHAXX7SGtbHSDFj7crPq62':
         return app.send_static_file('admin.html')
+    else:
+        return redirect('/')
 
 
 @app.route('/profile', methods=['GET'])

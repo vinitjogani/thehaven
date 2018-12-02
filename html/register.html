@@ -17,7 +17,7 @@
   width: 400px;
   height: 200px;
   display: inline-block;
-  top: calc(50% - 250px);
+  top: calc(50% - 270px);
   left: calc(50% - 200px);
   position:fixed;
 }
@@ -75,12 +75,26 @@ a{
   display:flex;
   margin-top:10px;
 }
+
+.failure {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  display:inline-block;
+  background-color: #ff6b81;
+}
 </style>
 
     <body>
-        <form method="POST" class="center">
+        <form method="POST" class="center" id="app">
+
             <h1 style="margin:0"><img src="/logo.png" height="80" /></h1>
 
+            <div v-if="failure">
+                <div class="failure">A user with that email already exists. Please try again with a
+                    different email!</div>
+                <br><br>
+            </div>
             <div class="flex">
                 <label style="flex:1">First Name</label>
                 <label style="flex:1">Last Name</label>
@@ -102,6 +116,19 @@ a{
                 </a>
             </div>
         </form>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script>
+            var vm = new Vue({
+                el: '#app',
+                computed: {
+                    failure() {
+                        var urlParams = new URLSearchParams(window.location.search);
+                        return urlParams.has('sta') && urlParams.get("sta") == "Failure";
+                    }
+                }
+            });
+        </script>
     </body>
 
 </html>
