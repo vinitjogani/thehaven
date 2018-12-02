@@ -1,5 +1,399 @@
-Audio<br>
-<form method="POST" action="/postAudio" enctype="multipart/form-data">
-    <input type="file" name='audio' /><br>
-    <input type="submit">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+  <title>Haven.</title>
+  <link rel="shortcut icon" href="/favicon.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+  input[type="file"] {
+      display: none;
+  }
+  .custom-file-upload {
+      border: 0.2px solid #ccc;
+      display: inline-block;
+      padding: 6px 12px;
+      cursor: pointer;
+  }
+  .custom-file-upload:hover {
+    background-color: #e2e2e2;
+  }
+  textarea {
+    resize: none;
+    width: 100%;
+    padding: 10px;
+    background: none;
+    border: none;
+    outline: none;
+    flex-grow:1;
+  }
+
+  .container {
+    width: 740px;
+    display: inline-block;
+    margin-left:calc(50% - 370px);
+    background-color: rgba(0,0,0,0.01);
+    padding: 10px;
+    box-shadow: 0.5px 1px 4px rgba(0,0,0,0.4);
+    margin-top: 10px;
+    
+    margin-top:40px;
+    transition: all 0.5s;
+    display: flex;
+    z-index: 5;
+  }
+
+  #newPost {
+    display: flex;
+    flex:1;
+    flex-direction: column;
+  }
+
+
+  .container:focus-within {
+    width:100% !important;
+    margin-left: 0px;
+    margin-top: 0px;
+    height: 250px;
+    transition: all 0.5s;
+  }
+
+  .header {
+    text-align:center;
+    z-index:-1;
+  }
+
+  .post {
+    cursor:pointer;
+    width: 350px;
+    border: solid;
+    border-radius: 3px;
+    border-width: 0.5px;
+    border-color: black;
+    padding: 1px;
+    display: inline-grid;
+    margin: 10px;
+  }
+
+  .post_author {
+    font-weight: bold;
+  }
+
+  .post_text, .post_author {
+    padding: 10px 10px;
+    margin: 0;
+    width: 100%;
+  }
+
+  .post_img {
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 120px;
+    cursor:pointer;
+  }
+
+  .post_audio {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .posts {
+    text-align: center;
+    width:100%;
+    display:inline-block;
+  }
+
+  .success, .password, .failure {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    display:inline-block;
+  }
+
+  #app {
+    text-align: left;
+    width: 740px;
+    display:inline-block;
+  }
+
+  .password, .success {
+    background-color:#7bed9f;
+  }
+
+  .failure {
+    background-color: #ff6b81;
+  }
+
+  .header a {
+    font-weight:bold;
+  }
+
+  .show_post {
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    z-index:100;
+    left:0;
+    background-color:#000;
+  }
+
+  .show_post .picture {
+    width: 60vw;
+    height:100%;
+    left:0;
+    position:fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:contain;
+  }
+
+  .show_post .comments {
+    width: 40vw;
+    right:0;
+    height:100%;
+    position:fixed;
+    background:white;
+    padding: 40px;
+  }
+
+  .show_post .close {
+    top: 25px;
+    left:25px;
+    position:fixed;
+    cursor:pointer;
+    font-size:50px;
+    text-shadow: 0 0 5px black;
+    color:white;
+  }
+
+  .comment .author {
+    font-weight: bold;
+  }
+
+  #commentBox {
+    background:none;
+    padding:20px;
+    border:none;
+    outline:none;
+    width:calc(100% - 20px);
+    margin:10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+  }
+</style>
+
+  <body>
+    <div class="header">
+      <img src="logo.png" height="100" /><br>
+      <a href="/profile">Profile</a> | <a href="/auth/logout">Logout</a>
+
+    </div>
+    <div class="container">
+      <form method="POST" action="/post" id="newPost" enctype="multipart/form-data">
+        <textarea name="text" rows="4" cols="50" placeholder="Start typing..." onchange="makeActive" id="textbox"></textarea>
+        <br>
+        <div>
+          <!image>
+          <label for="image-upload" class="custom-file-upload" id="photo_button">
+            <i class="fa fa-photo"></i>
+          </label>
+          <input id="image-upload" name="image" type="file" accept="image/*" onchange="document.getElementById('photo_button').style.backgroundColor='#e3e3e3'" />
+
+          <!Audio>
+          <label for="audio-upload" class="custom-file-upload" id='volume_button'>
+            <i class="fa fa-volume-up"></i>
+          </label>
+          <input id="audio-upload" name="audio" type="file" accept="audio/*" onchange="document.getElementById('volume_button').style.backgroundColor='#e3e3e3'" />
+
+          <!submit>
+          <label for="submit" class="custom-file-upload" style="float:right" onclick="document.getElementById('newPost').submit()">
+            <i class="fa fa-check"></i> Submit
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <br><br>
+
+    <div class="posts">
+      <div id="app">
+
+        <div class="show_post" style="display: none">
+          <div class="picture" :style="'background-image:url(' + show_image + ')'"></div>
+          <div class="close" @click="hidePost()">&times;</div>
+          <div class="comments">
+            <h2 style="font-weight:bold">Comments</h2>
+            <div class="comment" v-if="currentPost" v-for="comment in getComments()">
+              <span class="author">{{comment.author}}</span>: {{comment.text}}
+            </div>
+            <input type="text" placeholder="Type a (positive) comment..." v-model="commentBox" id="commentBox" @change="commentUpdate" />
+          </div>
+        </div>
+
+        <div class="success" v-if="success">Your post was successfully created! Thank you for being nice, you earned
+          {{points}} points!</div>
+        <div class="password" v-if="password">A link to reset your password has been sent to your email address!</div>
+        <div class="failure" v-if="failure">Your post could not be posted. Try framing your thoughts in a more positive
+          way!</div>
+        <br><br>
+
+        <div style="display:flex">
+          <div style="flex:1">
+            <div v-for="(post, i) in posts" v-if="i<=posts.length/2" class="post" @click="(e) => showPost(e, i, post)">
+              <p class="post_author">{{post.author}}</p>
+              <p class="post_text" v-if="post.text && post.text.trim() != ''">{{post.text}}</p>
+              <div class="post_img" v-if="post.image != ''" :style="'background-image:url(' + post.image + ')'"></div>
+              <div class="post_audio">
+                <audio v-if="post.audio != ''" controls>
+                  <source :src="post.audio" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1">
+            <div v-for="(post, i) in posts" v-if="i>posts.length/2" class="post" @click="(e) => showPost(e, i, post)">
+              <p class="post_author">{{post.author}}</p>
+              <p class="post_text" v-if="post.text && post.text.trim() != ''">{{post.text}}</p>
+              <div class="post_img" v-if="post.image != ''" :style="'background-image:url(' + post.image + ')'"></div>
+              <div class="post_audio">
+                <audio v-if="post.audio != ''" controls>
+                  <source :src="post.audio" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><br><br><br>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+    <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+    <script>
+      firebase.initializeApp({
+        projectId: 'haven-80079',
+        databaseURL: 'https://haven-80079.firebaseio.com',
+      })
+      var db = firebase.database()
+
+      var vm = new Vue({
+        el: '#app',
+        data: {
+          show_image: '',
+          commentBox: '',
+          currentPost: undefined
+        },
+        firebase: {
+          posts: db.ref('posts'),
+        },
+        methods: {
+          load(posts) {
+            for (var p of posts) {
+              p.name = "John Doe";
+              this.author(p);
+            }
+            return posts;
+          },
+          author(post) {
+            post.fname = "John";
+            post.lname = "Doe";
+            db.ref('users/' + post.uid).once('value').then((snapshot) => {
+              post.name = snapshot.val().fname + " " + snapshot.val().lname;
+            });
+          },
+          showPost(e, i, post) {
+            if (e.target.tagName == "AUDIO") return;
+
+            this.currentPost = i;
+            document.querySelector(".show_post").style.display = 'block';
+            if (post.image != '') {
+              this.show_image = post.image;
+              document.querySelector(".comments").style.marginRight = '0vw';
+            } else {
+              this.show_image = '';
+              document.querySelector(".comments").style.marginRight = '30vw';
+            }
+          },
+          hidePost() {
+            document.querySelector(".show_post").style.display = 'none';
+          },
+          commentUpdate(e) {
+            $.post('/comment', {
+              id: this.posts[this.currentPost]['.key'],
+              text: this.commentBox
+            });
+            this.commentBox = '';
+          },
+          getComments() {
+            if (this.currentPost)
+              return this.posts[this.currentPost].comments;
+            else
+              return [];
+          }
+        },
+        computed: {
+          success() {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.has('sta') && urlParams.get("sta") == "Success";
+          },
+          password() {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.has('sta') && urlParams.get("sta") == "Password";
+          },
+          failure() {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.has('sta') && urlParams.get("sta") == "Failure";
+          },
+          points() {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get("points");
+          }
+        }
+      })
+    </script>
+    <script>
+      // Get the Sidebar
+      var mySidebar = document.getElementById("mySidebar");
+
+      // Get the DIV with overlay effect
+      var overlayBg = document.getElementById("myOverlay");
+
+      // Toggle between showing and hiding the sidebar, and add overlay effect
+      function w3_open() {
+        if (mySidebar.style.display === 'block') {
+          mySidebar.style.display = 'none';
+          overlayBg.style.display = "none";
+        } else {
+          mySidebar.style.display = 'block';
+          overlayBg.style.display = "block";
+        }
+      }
+
+      // Close the sidebar with the close button
+      function w3_close() {
+        mySidebar.style.display = "none";
+        overlayBg.style.display = "none";
+      }
+
+      function makeActive() {
+        if (document.getElementById('textbox').innerText.length > 0) {
+          document.getElementById('textbox').className = 'container_active';
+        }
+        else {
+          document.getElementById('textbox').className = '';
+        }
+      }
+    </script>
+
+  </body>
+
+</html>

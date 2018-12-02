@@ -1,70 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>W3.CSS Template</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
-.w3-sidebar {
-  z-index: 3;
-  width: 250px;
-  top: 43px;
-  bottom: 0;
-  height: inherit;
+    <title>Register.</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        *{
+      box-sizing: border-box;
+    }
+
+    body{
+        background:#fefefe;
+    }
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+.center {
+  max-width: 100vw;
+  width: 400px;
+  height: 200px;
+  display: inline-block;
+  top: calc(50% - 250px);
+  left: calc(50% - 200px);
+  position:fixed;
 }
-input[type="file"] {
-    display: none;
+
+label {
+  display:block;
+  font-weight: bold;
+  font-family: 'Roboto';
+  margin: 4px;
+  font-size:13px;
 }
+
+input {
+  width: 100%;
+  border:none;
+  outline:none;
+  box-shadow: 0.5px 0.5px 3px rgba(0,0,0,0.6);
+  padding:20px;
+  font-size: 15px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+}
+
+input:focus {
+  box-shadow: 0.5px 0.5px 4px rgba(0,0,0,0.8);
+}
+
 .custom-file-upload {
-    border: 1px solid #ccc;
-    display: inline-block;
-    padding: 6px 12px;
+  box-shadow: 0.5px 0.5px 4px rgba(0,0,0,0.6);
+  outline:none;
+  border:none;
+    flex-grow: 1;
     cursor: pointer;
+    border-radius: 3px;
+    font-size: 15px;
+    height:57.2px;
+    width:190px;
+    text-align:center;
+    font-weight: bold;
+    display: block;
+    padding: 20px;
+}
+
+button:hover {
+  background-color:#e2e2e2;
+  box-shadow: 0.5px 0.5px 4px rgba(0,0,0,0.8);
+}
+
+a{
+  text-decoration: none;
+  color:#2B00A2;
+}
+
+.flex {
+  display:flex;
+  margin-top:10px;
 }
 </style>
-<body>
-<!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-theme-l1">Police</a>
-  </div>
-</div>
 
-<!-- Sidebar -->
-<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
-    <i class="fa fa-remove"></i>
-  </a>
-  <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#">Home</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#">Text</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#">Images</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#">Audio</a>
-</nav>
+    <body>
+        <form method="POST" class="center">
+            <h1 style="margin:0"><img src="/logo.png" height="80" /></h1>
 
-<div class="w3-main" style="margin-left:250px">
-  <div class="w3-row w3-padding-64">
-    <div class="w3-twothird w3-container">
-      <h1 class="w3-text-teal">Register</h1>
-		<form method="POST">
-			<h5>First Name<h5><input type="first_name" name='first_name' /><br>
-    		<h5>Last Name<h5><input type="last_name" name='last_name' /><br>
-   			<h5>Email<h5><input type="email" name='email' /><br>
-    		<h5>Password<h5><input type="password" name='password' /><br><br>
-   			<label for="submit" class="custom-file-upload">
-    		<i class="fa fa-check"></i> Submit <br>
-    		</label>
-    		<label for="login" class="custom-file-upload">
-    		<i class="fa fa-user-plus"></i><a href="login.html">Already a Member? Log in here!
-			</label>
-		</form> 
-	</div>
-</div>
-</div>
-</body>
+            <div class="flex">
+                <label style="flex:1">First Name</label>
+                <label style="flex:1">Last Name</label>
+            </div>
+            <div class="flex">
+                <input type="text" name='fname' style="margin-right:10px" />
+                <input type="text" name='lname' style="margin-left:10px" />
+            </div>
+
+            <label>Email</label>
+            <input type="email" name='email' /><br>
+            <label>Password</label>
+            <input type="password" name='password' />
+
+            <div class="flex">
+                <input type="submit" value="Register" style="flex: 1; margin-right: 10px; cursor:pointer; font-weight:bold; background:#efefef" />
+                <a for="register" class="custom-file-upload" style="flex: 1; margin-left: 10px; box-shadow:none" href="/auth/login">
+                    ... or login?
+                </a>
+            </div>
+        </form>
+    </body>
+
 </html>
